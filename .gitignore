@@ -38,3 +38,5 @@ logs/*
 !data/processed/.gitkeep
 !data/review/.gitkeep
 !logs/.gitkeep
+
+.chrome-profile/

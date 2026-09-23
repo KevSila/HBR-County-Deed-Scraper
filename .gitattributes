@@ -1,0 +1,13 @@
+# Normalize text files across Windows/Linux development environments
+* text=auto
+
+# Source and documentation files use LF in the repository
+*.py text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
+*.json text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.toml text eol=lf
+*.ini text eol=lf
+*.cfg text eol=lf
