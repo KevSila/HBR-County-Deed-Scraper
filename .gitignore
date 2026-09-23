@@ -1,0 +1,40 @@
+# Python virtual environment
+.venv/
+
+# Secrets / environment files
+.env
+.env.*
+!.env.example
+
+# Python cache / test cache
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+
+# Editor / OS files
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Scraped / generated data
+data/raw/*
+data/processed/*
+data/review/*
+
+# Runtime logs
+logs/*
+
+# Sensitive key files
+*.ppk
+*.pem
+*.key
+
+# Temporary files
+*.tmp
+*.bak
+
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!data/review/.gitkeep
+!logs/.gitkeep
