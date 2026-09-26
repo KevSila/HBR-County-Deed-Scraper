@@ -1,4 +1,3 @@
-
 """Identify the state of a Greenville PublicSearch results page."""
 
 import re
@@ -12,19 +11,13 @@ class SearchPageState(str, Enum):
     RESULTS = "results"
     SIGN_IN = "sign_in"
     FORBIDDEN = "forbidden"
+    SEARCH_ERROR = "search_error"
     NO_RESULTS = "no_results"
     LOADING = "loading"
 
 
 def extract_result_count(body_text: str) -> int | None:
-    """Read the total count from a Greenville results heading.
-
-    Examples:
-        1-50 of 106 results
-        1-1,000 of 1,234 results
-
-    Returns None if no results heading is present.
-    """
+    """Extract the total count from a Greenville results heading."""
 
     match = re.search(
         r"\b\d[\d,]*\s*-\s*\d[\d,]*\s+of\s+([\d,]+)\s+results\b",
@@ -42,10 +35,10 @@ def classify_search_page(
     current_url: str,
     body_text: str,
 ) -> SearchPageState:
-    """Classify a page without opening a browser or making requests.
+    """Classify the visible state of a Greenville search page.
 
-    Forbidden is checked before sign-in because Greenville's
-    Forbidden page can itself contain a sign-in link.
+    The order matters: an error page may also display the
+    generic No Results Found heading.
     """
 
     text = " ".join(body_text.casefold().split())
@@ -65,6 +58,13 @@ def classify_search_page(
         )
     ):
         return SearchPageState.SIGN_IN
+
+    # Check backend errors BEFORE the generic no-results heading.
+    if (
+        "error while running search" in text
+        or "the request timed out" in text
+    ):
+        return SearchPageState.SEARCH_ERROR
 
     if "no results found" in text:
         return SearchPageState.NO_RESULTS

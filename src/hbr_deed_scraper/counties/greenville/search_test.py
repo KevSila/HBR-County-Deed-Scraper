@@ -160,7 +160,12 @@ def main():
                 "Greenville still requires authentication "
                 "after the manual sign-in attempt."
             )
-
+        if state == SearchPageState.SEARCH_ERROR:
+            raise RuntimeError(
+                "Greenville reported a search execution error "
+                "or backend timeout. This is not a confirmed "
+                "zero-record result. No records were extracted."
+            )
         if state == SearchPageState.NO_RESULTS:
             raise RuntimeError(
                 "Greenville returned No Results Found for the "

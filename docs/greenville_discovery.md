@@ -376,3 +376,31 @@ successfully detected the 106-record total.
 
 These observations are specific to Greenville PublicSearch and
 should not be assumed to apply to the other county portals.
+
+---
+
+## Complete Results Regression — 2026-09-26
+
+The refactored Greenville workflow successfully collected all
+106 DEED records for the historical 2026-09-21 test date.
+
+Verified live navigation:
+- Page 1: records 1–50
+- Page 2: records 51–100
+- Page 3: records 101–106
+
+The collection returned 106 unique instrument numbers and found
+control instrument 2026064314, book 2803, page 704.
+
+The regression reused the original dynamic table-column parser.
+It did not create or overwrite a CSV file.
+
+Offline validation: 37 unit tests passed.
+
+Remaining work:
+- Extract the table parser into a standalone Greenville module.
+- Add focused tests for field mapping and malformed rows.
+- Validate the complete record schema.
+- Implement safe CSV export.
+- Broaden live testing beyond the historical fixture.
+- Finalize authentication and deployment/network requirements.

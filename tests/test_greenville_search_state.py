@@ -83,6 +83,32 @@ class GreenvilleSearchStateTests(unittest.TestCase):
 
         self.assertEqual(state, SearchPageState.LOADING)
 
+    def test_backend_timeout_takes_precedence_over_no_results(self):
+        state = classify_search_page(
+            RESULTS_URL,
+            (
+                "No Results Found\n"
+                'Your search for "09/21/2026-09/21/2026" '
+                "returned no results.\n"
+                "Error While Running Search:\n"
+                "The request timed out. Please try again."
+            ),
+        )
 
+        self.assertEqual(
+            state,
+            SearchPageState.SEARCH_ERROR,
+        )
+
+    def test_search_error_without_no_results_heading(self):
+        state = classify_search_page(
+            RESULTS_URL,
+            "Error While Running Search: The request timed out.",
+        )
+
+        self.assertEqual(
+            state,
+            SearchPageState.SEARCH_ERROR,
+        )
 if __name__ == "__main__":
     unittest.main()
